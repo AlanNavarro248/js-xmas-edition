@@ -44,7 +44,7 @@ function validarDescripcionRegalo(descripcionRegalo){
         return "El campo descripcion regalo solo puede tener menos de 100 caracteres."
     }
 
-    if(!/^[a-z0-9]+$/i.test(descripcionRegalo)){
+    if(!/^[a-z0-9]+/i.test(descripcionRegalo)){
         return "El campo descripcion solo puede tener letras y numeros."
     }
 
@@ -69,13 +69,10 @@ function validarFormulario(){
         "descripcion-regalo": errorDescripcionRegalo
     };
 
-    console.log(manejarErrores(errores));
-
     const noHayErrores = manejarErrores(errores) === 0;
 
     if(noHayErrores){
-        const $exito = document.querySelector("#exito");
-        $exito.className = "";
+        document.querySelector("#exito").className = "";
         $formulario.className = "oculto";
 
         setTimeout(function(){ 
@@ -93,17 +90,19 @@ function manejarErrores(errores){
     const keys = Object.keys(errores);
     const $errores = document.querySelector("#errores");
     let cantidadErrores = 0;
-
+    $errores.innerHTML = "";
+    
     keys.forEach(function(key){
         const error = errores[key];
 
         if(error){
-            $formulario[key].className = "error";
-            cantidadErrores++
 
+            $formulario[key].className = "error";           
             const contenedorError = document.createElement("li");
             contenedorError.innerText = error;
             $errores.appendChild(contenedorError);
+
+            cantidadErrores++
 
         }else{
             $formulario[key].className = "";
@@ -117,12 +116,3 @@ function manejarErrores(errores){
 
 const $formulario = document.querySelector("#carta-a-santa");
 $formulario.onsubmit = validarFormulario;
-
-
-
-// ver Uncaught TypeError: Cannot set property 'onsubmit' of null
-//    at main.js:119 al ir a la wishlist
-//  
-//  corregir el acumulador de errores
-//
-// agregar pruebas y validadores a la clase 6
